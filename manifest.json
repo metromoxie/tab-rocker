@@ -1,0 +1,15 @@
+{
+  "name": "Tab Return"
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Returns to the previous tab when you click on a tab",
+  "browser_action": {
+  },
+  "permissions": [
+	"tabs"
+  ],
+  "browser_action": {
+    "persistent": false,
+    "scripts": [ "background.js" ]
+  }
+}
