@@ -1,6 +1,6 @@
 {
-  "name": "Tab Return",
-  "version": "1.0",
+  "name": "Tab Rocker",
+  "version": "0.1",
   "manifest_version": 2,
   "description": "Returns to the previous tab when you click on a tab",
   "permissions": [
