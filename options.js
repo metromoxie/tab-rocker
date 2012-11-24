@@ -1,8 +1,8 @@
 function save_options() {
 	var binding = {
-		"ctrl" = true,
-		"meta" = false,
-		"keycode" = 66;
+		"ctrl": true,
+		"meta": false,
+		"keycode": 66
 	}
 	var ctrl = true;
 	var meta = false;
@@ -28,3 +28,6 @@ function restore_options() {
 		}
 	});
 }
+
+save_options();
+restore_options();
