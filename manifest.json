@@ -22,6 +22,11 @@
   "version": "0.1",
   "manifest_version": 2,
   "description": "Returns to the previous tab when you click on a tab",
+  "icons": {
+  	//"16":  "",
+	//"48":  "",
+	//"128": ""
+  },
   "permissions": [
     "http://*/*",
     "https://*/*",
