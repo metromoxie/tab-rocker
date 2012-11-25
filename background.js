@@ -22,12 +22,6 @@ var CURRENTTAB = undefined;
 var BINDING = undefined;
 var BINDING_LISTENERS = {};
 
-chrome.tabs.onActivated.addListener(function(info) {
-	var currenttab = info.tabId;
-	LASTTAB = CURRENTTAB;
-	CURRENTTAB = currenttab;
-});
-
 function setBinding(binding) {
 	var tab;
 	var bindingJSON;
@@ -67,6 +61,12 @@ function restoreBinding(callback) {
 		}
 	});
 }
+
+chrome.tabs.onActivated.addListener(function(info) {
+	var currenttab = info.tabId;
+	LASTTAB = CURRENTTAB;
+	CURRENTTAB = currenttab;
+});
 
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {

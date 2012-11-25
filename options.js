@@ -51,12 +51,12 @@ function setup() {
 	var keyListener = function (e) {
 		var binding = {};
 		// Only alphabet characters
-		if (e.keyCode >= 65 && e.keyCode <= 90) {
+		if (e.which >= 65 && e.which <= 90) {
 			binding = {
 				"alt": e.altKey,
 				"ctrl": e.ctrlKey,
 				"meta": e.metaKey,
-				"keycode": e.shiftKey ? e.keyCode : (e.keyCode + 32)
+				"keycode": e.shiftKey ? e.which : (e.which + 32)
 			};
 			BINDING = binding;
 

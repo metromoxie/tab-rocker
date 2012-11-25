@@ -16,20 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with Tab Rocker.  If not, see <http://www.gnu.org/licenses/>.
  */
+var $window = $(window);
 var BINDING = undefined;
+var PORT;
 
-var matchesBinding = function (e) {
+function matchesBinding (e) {
 	var alt = e.altKey;
 	var ctrl = e.ctrlKey;
 	var meta = e.metaKey;
-	var keycode = e.shiftKey ? e.keyCode : (e.keyCode + 32);
+	var keycode = e.shiftKey ? e.which : (e.which + 32);
 
 	return BINDING && BINDING.alt === alt && BINDING.ctrl === ctrl &&
 	  BINDING.meta === meta && BINDING.keycode === keycode;
 }
 
 // Keyboard keyup listener callback.
-var keyListener = function (e) {
+function keyListener (e) {
 	if (matchesBinding(e)) {
 		chrome.extension.sendMessage('update');
 	}
@@ -37,11 +39,12 @@ var keyListener = function (e) {
 
 // Open a port for an extended connection with the background page so it can
 // communicate updates to us every time a binding changes.
-var port = chrome.extension.connect();
-port.onMessage.addListener(function (msg) {
+PORT = chrome.extension.connect();
+PORT.onMessage.addListener(function (msg) {
 	BINDING = JSON.parse(msg);
 });
 
+// We only want tab rocker to work on the top frame, not any of the sub frames.
 if (window == top) {
-	window.addEventListener("keyup", keyListener, false);
+	$window.keydown(keyListener);
 }
