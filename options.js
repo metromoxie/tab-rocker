@@ -1,13 +1,15 @@
 var BINDING = undefined;
 
-function save_options() {
-	chrome.storage.local.set({'binding': binding}, function () {
+function save_options(callback) {
+	chrome.storage.local.set({'binding': BINDING}, function () {
 		if (chrome.runtime.lastError) {
 			// There was an error. For now, log there was an error and return.
 			console.error('There was an error saving the settings for ' +
 			  'the Tab Rocker extension: ' + chrome.runtime.lastError);
+			callback(true);
 			return;
 		}
+		callback(false);
 	});
 }
 
@@ -39,7 +41,8 @@ function restore_options(binding) {
 		return;
 	}
 
-	chrome.storage.local.get('binding', function(binding) {
+	chrome.storage.local.get('binding', function(storage) {
+		var binding = storage.binding;
 		if (chrome.runtime.lastError) {
 			// There was an error. For now, log there was an error and return.
 			console.error('There was an error retrieving the settings for ' +
@@ -48,7 +51,13 @@ function restore_options(binding) {
 		}
 
 		if (!binding) {
-			console.log('no binding by default');
+			// The default binding is "ctrl-b"
+			binding = {
+				"alt": false,
+				"ctrl": true,
+				"meta": false,
+				"keycode": 98
+			}
 		}
 
 		restore(binding);
@@ -56,6 +65,7 @@ function restore_options(binding) {
 }
 
 function setup() {
+	var updateBtn = document.getElementById('update');
 	// A = 65, Z = 90
 	// a = 97, z = 122
 	// TODO We may want to modify this to use some sort of jQuery magic to
@@ -80,5 +90,15 @@ function setup() {
 
 	restore_options();
 	window.addEventListener("keydown", keyListener, false);
+	updateBtn.onclick = function(){
+		save_options(function(error) {
+			var statusElt = document.getElementById("status");
+			if (!error) {
+				statusElt.textContent = 'Updated successfully.';
+			} else {
+				statusElt.textContent = 'Updated failed.';
+			}
+		});
+	};
 }
 setup();
