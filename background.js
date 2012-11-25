@@ -30,11 +30,13 @@ chrome.tabs.onActivated.addListener(function(info) {
 
 function setBinding(binding) {
 	var tab;
+	var bindingJSON;
 	
 	BINDING = binding;
+	bindingJSON = JSON.stringify(BINDING);
 
 	for (tab in BINDING_LISTENERS) {
-		BINDING_LISTENERS[tab](BINDING);
+		BINDING_LISTENERS[tab].postMessage(bindingJSON);
 	}
 }
 

@@ -59,6 +59,7 @@ function setup() {
 			BINDING = binding;
 
 			setBinding(binding);
+			chrome.extension.getBackgroundPage().setBinding(binding);
 		}
 	}
 
