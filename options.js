@@ -67,14 +67,18 @@ function setup() {
 	window.addEventListener("keydown", keyListener, false);
 	updateBtn.onclick = function(){
 		saveOptions(function(error) {
-			var statusElt = document.getElementById("status");
+			var statusElt = $('#status');
 			if (!error) {
-				statusElt.textContent = 'Updated successfully.';
+				statusElt.text('Update successful.');
 			} else {
-				statusElt.textContent = 'Updated failed.';
+				statusElt.text('Update failed.');
 			}
+			statusElt.slideDown('slow').delay(1000).slideUp('slow');
 		});
 	};
+	updateBtn.focus();
 }
 
-setup();
+$(window).load(function () {
+	setup();
+});
