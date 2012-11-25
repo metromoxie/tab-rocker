@@ -38,6 +38,34 @@ function setBinding(binding) {
   }
 }
 
+function restoreBindings(callback) {
+	chrome.storage.local.get('binding', function(storage) {
+		var binding = storage.binding;
+		if (chrome.runtime.lastError) {
+			// There was an error. For now, log there was an error and return.
+			console.error('There was an error retrieving the settings for ' +
+			  'the Tab Rocker extension: ' + chrome.runtime.lastError);
+			return;
+		}
+
+		if (!binding) {
+			// The default binding is "ctrl-b"
+			binding = {
+				"alt": false,
+				"ctrl": true,
+				"meta": false,
+				"keycode": 98
+			}
+		}
+
+		setBinding(binding);
+
+		if (callback) {
+			callback(binding);
+		}
+	});
+}
+
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
   	if (request === 'update') {
@@ -57,3 +85,5 @@ chrome.extension.onConnect.addListener(function (port) {
   });
   port.postMessage(JSON.stringify(BINDING));
 });
+
+restoreBindings();

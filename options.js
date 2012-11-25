@@ -30,31 +30,12 @@ function setBinding(binding) {
 
 	commandElt.value = command;
 	BINDING = binding;
-	chrome.extension.getBackgroundPage().setBinding(binding);
 }
 
-// Takes an optional binding as an argument. If none is given, will attempt to
-// restore from local storage.
+// Attempts to load binding from local storage then sets the page to display the
+// binding.
 function restoreOptions() {
-	chrome.storage.local.get('binding', function(storage) {
-		var binding = storage.binding;
-		if (chrome.runtime.lastError) {
-			// There was an error. For now, log there was an error and return.
-			console.error('There was an error retrieving the settings for ' +
-			  'the Tab Rocker extension: ' + chrome.runtime.lastError);
-			return;
-		}
-
-		if (!binding) {
-			// The default binding is "ctrl-b"
-			binding = {
-				"alt": false,
-				"ctrl": true,
-				"meta": false,
-				"keycode": 98
-			}
-		}
-
+	chrome.extension.getBackgroundPage().restoreBinding(function (binding) {
 		setBinding(binding);
 	});
 }
