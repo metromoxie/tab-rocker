@@ -40,9 +40,31 @@ function restoreOptions() {
 	});
 }
 
+function resetToDefaults() {
+	//default binding is ctrl-b
+	var default_binding = {
+		"alt": false,
+		"ctrl": true,
+		"meta": false,
+		"keycode": 98 
+	}
+	var $statusElt = $('#status');
+	chrome.extension.getBackgroundPage().setBinding(default_binding);
+	setBinding(default_binding);
+	saveOptions(function (error) {
+		if (!error) {
+			$statusElt.text('Reset successful.');
+		} else {
+			$statusElt.text('Reset failed.');
+		}
+		$statusElt.slideDown('slow').delay(1000).slideUp('slow');
+	});
+}
+
 function setup() {
 	var $window = $(window);
 	var $updateBtn = $('#update');
+	var $defaultsBtn = $('#defaults');
 	var $statusElt = $('#status');
 	// A = 65, Z = 90
 	// a = 97, z = 122
@@ -67,6 +89,7 @@ function setup() {
 
 	restoreOptions();
 	$window.keydown(keyListener);
+
 	$updateBtn.click(function () {
 		saveOptions(function (error) {
 			if (!error) {
@@ -77,6 +100,10 @@ function setup() {
 			$statusElt.slideDown('slow').delay(1000).slideUp('slow');
 		})});
 	$updateBtn.focus();
+
+	$defaultsBtn.click(function () {
+		resetToDefaults();
+	});
 }
 
 $(document).ready(function () {
