@@ -19,6 +19,8 @@
 
 var LASTTAB = undefined;
 var CURRENTTAB = undefined;
+var BINDING = undefined;
+var BINDING_LISTENERS = {};
 
 chrome.tabs.onActivated.addListener(function(info) {
 	var currenttab = info.tabId;
@@ -26,10 +28,32 @@ chrome.tabs.onActivated.addListener(function(info) {
 	CURRENTTAB = currenttab;
 });
 
+function setBinding(binding) {
+  var tab;
+
+  BINDING = binding;
+
+  for (tab in BINDING_LISTENERS) {
+    BINDING_LISTENERS[tab](BINDING);
+  }
+}
+
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (LASTTAB !== undefined) {
-	  chrome.tabs.update(LASTTAB, {active: true});
-	}
-  }
-);
+  	if (request === 'update') {
+      if (LASTTAB !== undefined) {
+        chrome.tabs.update(LASTTAB, {active: true});
+      }
+    }
+  });
+
+chrome.extension.onConnect.addListener(function (port) {
+  // Registers a request for any time there's an update to the bindings and
+  // immediately sends an update with the current binding.
+  var id = port.sender.tab.id;
+  BINDING_LISTENERS[id] = port;
+  port.onDisconnect.addListener(function() {
+    delete BINDING_LISTENERS[id];
+  });
+  port.postMessage(JSON.stringify(BINDING));
+});

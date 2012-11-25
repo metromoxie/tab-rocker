@@ -1,6 +1,6 @@
 var BINDING = undefined;
 
-function save_options(callback) {
+function saveOptions(callback) {
 	chrome.storage.local.set({'binding': BINDING}, function () {
 		if (chrome.runtime.lastError) {
 			// There was an error. For now, log there was an error and return.
@@ -13,34 +13,29 @@ function save_options(callback) {
 	});
 }
 
+function setBinding(binding) {
+	var commandElt = document.getElementById('command');
+	var command = '';
+
+	if (binding.alt) {
+		command += 'alt-';
+	}
+	if (binding.ctrl) {
+		command += 'ctrl-';
+	}
+	if (binding.meta) {
+		command += 'meta-';
+	}
+	command += String.fromCharCode(binding.keycode);
+
+	commandElt.value = command;
+	BINDING = binding;
+	chrome.extension.getBackgroundPage().setBinding(binding);
+}
+
 // Takes an optional binding as an argument. If none is given, will attempt to
 // restore from local storage.
-function restore_options(binding) {
-	var restore = function (binding) {
-		var commandElt = document.getElementById('command');
-		var command = '';
-
-		if (binding.alt) {
-			command += 'alt-';
-		}
-		if (binding.ctrl) {
-			command += 'ctrl-';
-		}
-		if (binding.meta) {
-			command += 'meta-';
-		}
-		command += String.fromCharCode(binding.keycode);
-
-		commandElt.value = command;
-		BINDING = binding;
-	};
-
-	// If a binding argument is given, use that instead of local storage.
-	if (binding) {
-		restore(binding);
-		return;
-	}
-
+function restoreOptions() {
 	chrome.storage.local.get('binding', function(storage) {
 		var binding = storage.binding;
 		if (chrome.runtime.lastError) {
@@ -60,7 +55,7 @@ function restore_options(binding) {
 			}
 		}
 
-		restore(binding);
+		setBinding(binding);
 	});
 }
 
@@ -82,14 +77,14 @@ function setup() {
 			};
 			BINDING = binding;
 
-			restore_options(binding);
+			setBinding(binding);
 		}
 	}
 
-	restore_options();
+	restoreOptions();
 	window.addEventListener("keydown", keyListener, false);
 	updateBtn.onclick = function(){
-		save_options(function(error) {
+		saveOptions(function(error) {
 			var statusElt = document.getElementById("status");
 			if (!error) {
 				statusElt.textContent = 'Updated successfully.';
