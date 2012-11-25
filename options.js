@@ -41,7 +41,9 @@ function restoreOptions() {
 }
 
 function setup() {
-	var updateBtn = document.getElementById('update');
+	var $window = $(window);
+	var $updateBtn = $('#update');
+	var $statusElt = $('#status');
 	// A = 65, Z = 90
 	// a = 97, z = 122
 	// TODO We may want to modify this to use some sort of jQuery magic to
@@ -64,21 +66,19 @@ function setup() {
 	}
 
 	restoreOptions();
-	window.addEventListener("keydown", keyListener, false);
-	updateBtn.onclick = function(){
-		saveOptions(function(error) {
-			var statusElt = $('#status');
+	$window.keydown(keyListener);
+	$updateBtn.click(function () {
+		saveOptions(function (error) {
 			if (!error) {
-				statusElt.text('Update successful.');
+				$statusElt.text('Update successful.');
 			} else {
-				statusElt.text('Update failed.');
+				$statusElt.text('Update failed.');
 			}
-			statusElt.slideDown('slow').delay(1000).slideUp('slow');
-		});
-	};
-	updateBtn.focus();
+			$statusElt.slideDown('slow').delay(1000).slideUp('slow');
+		})});
+	$updateBtn.focus();
 }
 
-$(window).load(function () {
+$(document).ready(function () {
 	setup();
 });
