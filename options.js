@@ -94,4 +94,5 @@ function setup() {
 		});
 	};
 }
-setup();
+
+document.addEventListener('DOMContentReady', setup);
