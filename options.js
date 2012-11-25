@@ -76,4 +76,4 @@ function setup() {
 	};
 }
 
-document.addEventListener('DOMContentReady', setup);
+setup();

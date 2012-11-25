@@ -38,7 +38,7 @@ function setBinding(binding) {
   }
 }
 
-function restoreBindings(callback) {
+function restoreBinding(callback) {
 	chrome.storage.local.get('binding', function(storage) {
 		var binding = storage.binding;
 		if (chrome.runtime.lastError) {
@@ -86,4 +86,4 @@ chrome.extension.onConnect.addListener(function (port) {
   port.postMessage(JSON.stringify(BINDING));
 });
 
-restoreBindings();
+restoreBinding();
