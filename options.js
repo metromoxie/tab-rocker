@@ -71,11 +71,9 @@ function setup() {
 	// TODO We may want to modify this to use some sort of jQuery magic to
 	// handle a wider set of cases than just alphabet keys.
 	var keyListener = function (e) {
-		console.log('key received');
 		var binding = {};
 		// Only alphabet characters
 		if (e.keyCode >= 65 && e.keyCode <= 90) {
-			console.log('valid key!');
 			binding = {
 				"alt": e.altKey,
 				"ctrl": e.ctrlKey,
