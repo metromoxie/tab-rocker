@@ -30,18 +30,18 @@ var matchesBinding = function (e) {
 
 // Keyboard keyup listener callback.
 var keyListener = function (e) {
-  if (matchesBinding(e)) {
-    chrome.extension.sendMessage('update');
-  }
+	if (matchesBinding(e)) {
+		chrome.extension.sendMessage('update');
+	}
 }
 
 // Open a port for an extended connection with the background page so it can
 // communicate updates to us every time a binding changes.
 var port = chrome.extension.connect();
 port.onMessage.addListener(function (msg) {
-  BINDING = JSON.parse(msg);
+	BINDING = JSON.parse(msg);
 });
 
 if (window == top) {
-  window.addEventListener("keyup", keyListener, false);
+	window.addEventListener("keyup", keyListener, false);
 }

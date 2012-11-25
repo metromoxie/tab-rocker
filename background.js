@@ -29,13 +29,13 @@ chrome.tabs.onActivated.addListener(function(info) {
 });
 
 function setBinding(binding) {
-  var tab;
+	var tab;
+	
+	BINDING = binding;
 
-  BINDING = binding;
-
-  for (tab in BINDING_LISTENERS) {
-    BINDING_LISTENERS[tab](BINDING);
-  }
+	for (tab in BINDING_LISTENERS) {
+		BINDING_LISTENERS[tab](BINDING);
+	}
 }
 
 function restoreBinding(callback) {
@@ -67,23 +67,23 @@ function restoreBinding(callback) {
 }
 
 chrome.extension.onMessage.addListener(
-  function(request, sender, sendResponse) {
-  	if (request === 'update') {
-      if (LASTTAB !== undefined) {
-        chrome.tabs.update(LASTTAB, {active: true});
-      }
-    }
-  });
+	function(request, sender, sendResponse) {
+		if (request === 'update') {
+			if (LASTTAB !== undefined) {
+				chrome.tabs.update(LASTTAB, {active: true});
+			}
+		}
+	});
 
 chrome.extension.onConnect.addListener(function (port) {
-  // Registers a request for any time there's an update to the bindings and
-  // immediately sends an update with the current binding.
-  var id = port.sender.tab.id;
-  BINDING_LISTENERS[id] = port;
-  port.onDisconnect.addListener(function() {
-    delete BINDING_LISTENERS[id];
-  });
-  port.postMessage(JSON.stringify(BINDING));
+	// Registers a request for any time there's an update to the bindings and
+	// immediately sends an update with the current binding.
+	var id = port.sender.tab.id;
+	BINDING_LISTENERS[id] = port;
+	port.onDisconnect.addListener(function() {
+		delete BINDING_LISTENERS[id];
+	});
+	port.postMessage(JSON.stringify(BINDING));
 });
 
 restoreBinding();
