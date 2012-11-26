@@ -1,5 +1,11 @@
-.common-body{
-	text-align: center
+.common-body {
+	text-align: center;
+}
+
+.common-div {
+	display: inline-block;
+	float: center;
+	width: 750px;
 }
 
 .hidden {
