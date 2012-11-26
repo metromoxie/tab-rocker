@@ -21,7 +21,7 @@
   "name": "Tab Rocker",
   "version": "0.2.1",
   "manifest_version": 2,
-  "description": "Returns to the previous tab when you click on a tab",
+  "description": "Cycle between two tabs with a key stroke.",
   "icons": {
   	//"16":  "",
 	//"48":  "",
