@@ -62,6 +62,17 @@ function restoreBinding(callback) {
 	});
 }
 
+// Shows the welcome screen if and only if this is the first use of the
+// extension right after installing it.
+function showWelcome() {
+	chrome.storage.local.get('installed', function(storage) {
+		if (!storage.installed) {
+			chrome.tabs.create({ 'url': 'welcome.html' });
+			chrome.storage.local.set({ 'installed': true });
+		}
+	});
+}
+
 chrome.tabs.onActivated.addListener(function(info) {
 	var currenttab = info.tabId;
 	LASTTAB = CURRENTTAB;
@@ -88,4 +99,9 @@ chrome.extension.onConnect.addListener(function (port) {
 	port.postMessage(JSON.stringify(BINDING));
 });
 
+// Restores the stored binding configuration.
 restoreBinding();
+
+// Check to see if the extension has been installed before. If not, go to the
+// welcome screen.
+showWelcome();
