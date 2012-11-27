@@ -22,6 +22,12 @@ var CURRENTTAB = undefined;
 var BINDING = undefined;
 var BINDING_LISTENERS = {};
 
+function rockTabs() {
+	if (LASTTAB !== undefined) {
+		chrome.tabs.update(LASTTAB, {active: true});
+	}
+}
+
 function setBinding(binding) {
 	var tab;
 	var bindingJSON;
@@ -62,6 +68,12 @@ function restoreBinding(callback) {
 	});
 }
 
+function setupBrowserAction() {
+	chrome.browserAction.onClicked.addListener(function(tab) {
+		rockTabs();
+	});
+}
+
 // Shows the welcome screen if and only if this is the first use of the
 // extension right after installing it.
 function showWelcome() {
@@ -82,9 +94,7 @@ chrome.tabs.onActivated.addListener(function(info) {
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if (request === 'update') {
-			if (LASTTAB !== undefined) {
-				chrome.tabs.update(LASTTAB, {active: true});
-			}
+			rockTabs();
 		}
 	});
 
@@ -101,6 +111,9 @@ chrome.extension.onConnect.addListener(function (port) {
 
 // Restores the stored binding configuration.
 restoreBinding();
+
+// Setup the browser action button.
+setupBrowserAction();
 
 // Check to see if the extension has been installed before. If not, go to the
 // welcome screen.
