@@ -18,26 +18,26 @@
  */
 
 {
-  "name": "Tab Rocker",
-  "version": "0.2.1",
-  "manifest_version": 2,
-  "description": "Cycle between two tabs with a key stroke.",
-  "icons": {
-	"128": "Tab-Rocker-128.png"
-  },
-  "offline_enabled": true,
-  "permissions": [
-    "http://*/*",
-    "https://*/*",
-	"tabs",
-	"storage"
-  ],
-  "options_page": "options.html",
-  "background": {
-    "scripts": [ "background.js" ]
-  },
-  "content_scripts": [{
-    "matches": [ "http://*/*", "https://*/*" ],
-    "js": [ "jquery.js", "content.js" ]
-  }]
+	"name": "Tab Rocker",
+	"version": "0.2.1",
+	"manifest_version": 2,
+	"description": "Cycle between two tabs with a key stroke.",
+	"icons": {
+		"128": "Tab-Rocker-128.png"
+	},
+	"offline_enabled": true,
+	"permissions": [
+		"http://*/*",
+		"https://*/*",
+		"tabs",
+		"storage"
+	],
+	"options_page": "options.html",
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+	"content_scripts": [{
+		"matches": [ "http://*/*", "https://*/*" ],
+		"js": [ "jquery.js", "content.js" ]
+	}]
 }
