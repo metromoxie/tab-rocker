@@ -23,9 +23,7 @@
   "manifest_version": 2,
   "description": "Cycle between two tabs with a key stroke.",
   "icons": {
-  	//"16":  "",
-	//"48":  "",
-	//"128": ""
+	"128": "Tab-Rocker-128.png"
   },
   "offline_enabled": true,
   "permissions": [
