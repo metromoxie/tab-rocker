@@ -1,8 +1,12 @@
-.PHONY: all
-all: release
+RELEASEDIR=release
+EXCLUDES=--exclude=".*" --exclude="*.ai" --exclude="$(RELEASEDIR)"
 
-release:
+.PHONY: all
+all: $(RELEASEDIR)
+
+$(RELEASEDIR):
 	mkdir release
+	rsync -a $(EXCLUDES) . release
 
 .PHONY: clean
 clean:
