@@ -1,6 +1,6 @@
 {
 	"name": "Tab Rocker",
-	"version": "1.0",
+	"version": "1.0.1",
 	"manifest_version": 2,
 	"description": "Cycle between two tabs with a key stroke.",
 	"homepage_url": "https://github.com/metromoxie/tab-rocker",
