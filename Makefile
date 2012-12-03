@@ -1,6 +1,8 @@
 RELEASEDIR=release
 EXCLUDES=--exclude=".*" \
 		 --exclude="artwork" \
+		 --exclude="README.md" \
+		 --exclude="Makefile" \
 		 --exclude="$(RELEASEDIR)" \
 		 --exclude="$(RELEASEDIR).zip"
 
