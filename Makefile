@@ -1,5 +1,8 @@
 RELEASEDIR=release
-EXCLUDES=--exclude=".*" --exclude="*.ai" --exclude="$(RELEASEDIR)" --exclude="$(RELEASEDIR).zip"
+EXCLUDES=--exclude=".*" \
+		 --exclude="artwork" \
+		 --exclude="$(RELEASEDIR)" \
+		 --exclude="$(RELEASEDIR).zip"
 
 .PHONY: all
 all: $(RELEASEDIR)
